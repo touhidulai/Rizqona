@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from database.repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability
 from models.restaurants import RestaurantCreate, MenuItemCreate, AvailabilityUpdate
 
@@ -9,10 +9,11 @@ def all_restaurants_endpoint():
     restaurants = get_all_restaurants()
     return restaurants
 
-
 @router.get("/restaurants/{id}")
 def restaurant_byid_endpoint(id: int):
     restaurant = get_restaurant_by_id(id)
+    if restaurant is None:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
     return restaurant
 
 @router.post("/restaurants")
