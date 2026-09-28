@@ -4,11 +4,10 @@ import bcrypt
 
 
 def hash_password(password: str):
-
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
 def verify_password(raw_password: str, hashed_password: str):
-    return bcrypt.checkpw(raw_password.encode('utf-8'), hashed_password)
+    return bcrypt.checkpw(raw_password.encode('utf-8'), hashed_password.encode('utf-8'))
 
 def create_token(user_id: int):
     SECRET_KEY = os.getenv("SECRET_KEY")
