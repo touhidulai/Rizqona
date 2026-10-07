@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Depends
-from database.repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability
+from database.restaurant_repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability
 from models.restaurants import RestaurantCreate, MenuItemCreate, AvailabilityUpdate
 from services.auth_service import get_current_user
 
