@@ -76,3 +76,17 @@ def update_menu_item_availability(id, is_available: bool):
     finally:
         cursor.close()
         conn.close()
+
+def get_full_menu_by_restaurant_id(restaurant_id):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory = RealDictCursor)
+
+    try:
+        cursor.execute("SELECT * FROM menu_items WHERE restaurant_id =(%s)", (restaurant_id,))
+        menu = cursor.fetchall()
+        return menu
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
