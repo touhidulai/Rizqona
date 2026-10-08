@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
-from database.restaurant_repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability, get_full_menu_by_restaurant_id
+from database.restaurant_repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability, get_full_menu_by_restaurant_id, search_menu_items_by_name
+from database.restaurant_repository import filter_menu_items_by_price
 from models.restaurants import RestaurantCreate, MenuItemCreate, AvailabilityUpdate, MenuItemResponse
 from services.auth_service import get_current_user
 from database.event_repo import create_event
@@ -44,3 +45,21 @@ def create_menu_item_endpoint(id: int, menu: MenuItemCreate, current_user: int =
 @router.patch("/restaurants/{id}/menu-items/{item_id}")
 def change_item_availability_endpoint(item_id: int, availability: AvailabilityUpdate, current_user: int = Depends(get_current_user)):
     return update_menu_item_availability(item_id, availability.is_available)
+
+@router.get("/menu-items/search")
+def search_menu_endpoint(name: str, current_user: int = Depends(get_current_user)):
+    results = search_menu_items_by_name(name)
+    event_type = "search_menu"
+    create_event(current_user, event_type)
+    if len(results) == 0:
+        raise HTTPException(status_code=404, detail=f"{name} not found")
+    return results
+
+@router.get("/menu-items/price")
+def filter_menu_items_by_price_endpoint(max_price: float, current_user: int = Depends(get_current_user)):
+    results = filter_menu_items_by_price(max_price)
+    event_type = "filter_menu"
+    create_event(current_user, event_type)
+    if len(results) == 0:
+        raise HTTPException(status_code=404, detail="No Result Found")
+    return results

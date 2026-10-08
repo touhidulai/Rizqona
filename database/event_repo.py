@@ -1,7 +1,7 @@
 from database.connection import get_connection
 from psycopg2.extras import RealDictCursor
 
-def create_event(student_id, event_type, restaurant_id, menu_item_id = None):
+def create_event(student_id, event_type, restaurant_id=None, menu_item_id = None):
     conn = get_connection()
     cursor = conn.cursor(cursor_factory = RealDictCursor)
     

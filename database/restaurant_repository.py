@@ -90,3 +90,32 @@ def get_full_menu_by_restaurant_id(restaurant_id):
     finally:
         cursor.close()
         conn.close()
+
+def search_menu_items_by_name(name):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory = RealDictCursor)
+
+    try:
+        cursor.execute("SELECT * FROM menu_items WHERE name ILIKE %s", (f'%{name}%',))
+        menus = cursor.fetchall()
+        return menus
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
+
+def filter_menu_items_by_price(max_price):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory = RealDictCursor)
+
+    try:
+        cursor.execute("SELECT * FROM menu_items WHERE price <= %s", (max_price,))
+        menus = cursor.fetchall()
+        return menus
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
+
