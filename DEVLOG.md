@@ -72,3 +72,19 @@ Setup New Model for Students. Separate Repository for Restaurants, Students, Res
 
 __End of Sprint 4__
 
+## Sprint 5 - Event Logging
+
+**What is Built**
+Event Logging is built. Events tables is created in both local postgres and in Neon. Added log function to the routes to track logs for Future Recommendation Engine. 
+
+**Things that I fixed it:**
+- Old Database File (Repository.py) which containes all repo functions together has been separated to separate file. So CleanUps of the old file. 
+
+**Decisions I made:**
+- Primary decision is about design of the Database Table for Events Logs and its data inputs flows for. 
+- Going for two tables or Single Table was a difficult decision. 
+
+**What I learned:**
+- How Each users activity is logged for recommendation engine. Each calls to the API creates a new row in the database with timestamps. Tracks users journey with their id. 
+
+__End of Sprint 5__
