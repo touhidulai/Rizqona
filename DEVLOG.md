@@ -1,5 +1,22 @@
 # Rizqona DEVLOG
 
+## Sprint 1 - Food Discovery 
+
+**What is Built**
+This sprint is used to built the models to define Restaurants, Menu Items. The local database connection is built with PostgreSQL. Furthermore, Restaurant repository is built to query the database. Finally, routes are built.  
+
+**Things that I fixed it:**
+- When querying a particular restaurant that doesn't exist, enabled HTTP Exception Error to handle that. 
+- The routes were returning data in List. So, Handled it with RealDictCursor. 
+
+**Decisions I made:**
+- Only Food Discovery in Sprint 1 — keep it simple, add later.
+
+**What I learned:**
+- How to model something. Modelling Responses that limits what items we can return or not. How to handle credentials with .env and building connection to database using SQL. Finally, some- Basic CRUD Operations.  
+
+__End of Sprint 1__
+
 ## Sprint 2 - Restaurant Owner Auth
 
 **What is Built**
@@ -34,3 +51,24 @@ Setup Microsoft Azure. Created Resource + Container Registry. Dockerized my proj
 - From writing DockerFile to Azure Registry to Deployment in Microsoft Azure with Live Link Enabled. 
 
 __End of Sprint 3__
+
+## Sprint 4 - Student Authentication
+
+**What is Built**
+Setup New Model for Students. Separate Repository for Restaurants, Students, Restaurant Owners. Validating Email Addresses for UM Student. Database Design for Student Login.
+
+**Things that I fixed it:**
+- Fixed Branch Management Issue like Requirements, Dockerfile and Notes were not in Sprint 4 branch but was on main branch. 
+- Fixed Cache Issue in Docker. 
+- Fixed Cache Issue in Azure Container App. Fixed it using relaunching the Container. 
+- Found Flaw in Docker Naming. Using latest causes issue in Azure. Need unique codes/naming to make it work.  
+
+**Decisions I made:**
+-  Like, it needs to be end with "@siswa.um.edu.my" with PyDantic Field Validator.
+- A Database Design Tradeoff - Product Design that a student can be at the same time a rider and also a user. Similarly, a student can open a restaurant in here so need two id. Furthermore, the issue with graduation. If a student graduates, can't login due to email would be invalid. 
+
+**What I learned:**
+- Docker and Azure Cache Fixing. Product and Database Design considering long term requirements. 
+
+__End of Sprint 4__
+
