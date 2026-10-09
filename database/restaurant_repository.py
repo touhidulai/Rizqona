@@ -1,12 +1,12 @@
 from database.connection import get_connection
 from psycopg2.extras import RealDictCursor
 
-def create_restaurant(name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time):
+def create_restaurant(name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time, owner_id):
     conn = get_connection()
     cursor = conn.cursor(cursor_factory = RealDictCursor)
     
     try:
-        cursor.execute("INSERT INTO restaurant (name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING id", (name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time,))
+        cursor.execute("INSERT INTO restaurant (name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time, owner_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) RETURNING id", (name, phone_number, address, trade_license_no, photo_url, cuisine_type, opening_time,owner_id))
         restaurant_id = cursor.fetchone()["id"]
         conn.commit()
         return {"restaurant_id": restaurant_id}
@@ -119,3 +119,17 @@ def filter_menu_items_by_price(max_price):
         cursor.close()
         conn.close()
 
+
+def get_restaurant_by_owner_id(owner_id):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory = RealDictCursor)
+
+    try:
+        cursor.execute("SELECT id FROM restaurant WHERE owner_id =%s", (owner_id,))
+        restaurant_id = cursor.fetchone()["id"]
+        return restaurant_id
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
