@@ -34,7 +34,7 @@ def get_restaurant_full_menu(id: int, current_user: int = Depends(get_current_us
 @router.post("/restaurants")
 def create_restaurant_endpoint(restaurant: RestaurantCreate, current_user: int = Depends(get_current_user)):
 
-    restaurant_id = create_restaurant(restaurant.name, restaurant.phone_number, restaurant.address, restaurant.trade_license_no,restaurant.photo_url,restaurant.cuisine_type,restaurant.opening_time)
+    restaurant_id = create_restaurant(restaurant.name, restaurant.phone_number, restaurant.address, restaurant.trade_license_no,restaurant.photo_url,restaurant.cuisine_type,restaurant.opening_time, current_user)
     return restaurant_id
 
 @router.post("/restaurants/{id}/menu-items")

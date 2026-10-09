@@ -105,3 +105,23 @@ Basic Search & Filter is implemented. Both were implemented using SQL.
 
 __End of Sprint 6__
 
+## Sprint 7 - Order System
+
+**What is Built**
+- Designed Database Tables for Storing Cart Items, Confirmed Orders, Order Items. Food order flow is built (From adding to cart, placing orders, clears out the cart). For Restaurant Owner, can view the ordered menu for their restaurants and update default status of the ordered item.  
+
+**Things that I Fixed:**
+- In Sprint 2, when creating restaurant table, owner id column was added in database but was not enforced in restaurant repositories. So, the restaurants data was there but missing owner_id. So, Manually added data for testing and enforced it in repository and also endpoint. 
+
+
+**Decisions I made:**
+- Order and Order Items are separate tables as One order can have multiple items in it. 
+- Used Join SQL to get cart details along with details from menu_items such as price. 
+- Student Profile Table was enforced in Order System that only students can order. 
+- To View Restaurants by ID, used Owner's Login JWT so that One Owner can't view other restaurants orders. 
+
+**What I learned:**
+- JOIN queries to combine data from two tables in one query
+- Database Level Design 
+
+__End of Sprint 7__
