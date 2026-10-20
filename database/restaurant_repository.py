@@ -133,3 +133,17 @@ def get_restaurant_by_owner_id(owner_id):
     finally:
         cursor.close()
         conn.close()
+
+def get_restaurants_by_ids(restaurant_ids_list):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory = RealDictCursor)
+
+    try:
+        cursor.execute("SELECT id, name, address, cuisine_type, opening_time, photo_url FROM restaurant WHERE id = ANY(%s)", (restaurant_ids_list,))
+        restaurants = cursor.fetchall()
+        return restaurants
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()

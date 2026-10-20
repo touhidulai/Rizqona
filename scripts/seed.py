@@ -8,103 +8,12 @@ import random
 from datetime import datetime, timedelta
 from scripts.seed_data import owners, restaurants, menu_items, faculties, students
 
-# def seed_owners(name,username, email, phone_number, password, role= "owner"):
-#     conn = get_connection()
-#     cursor = conn.cursor()
-
-#     try:
-#         cursor.execute("INSERT INTO users (name, username,email,phone_number, password, role) VALUES (%s,%s,%s,%s,%s,%s) RETURNING id", (name,username, email, phone_number,password,role, ))
-#         user_id = cursor.fetchone()[0]
-#         conn.commit()
-#         return user_id
-#     except Exception as e:
-#         conn.rollback()
-#         raise ValueError(f"Something went wrong: {str(e)}")
-#     finally:
-#         cursor.close()
-#         conn.close()
-
-# owner_ids = {}
-# for owner in owners:
-#     result = seed_owners(
-#         owner["name"],
-#         owner["username"],
-#         owner["email"],
-#         owner["phone_number"],
-#         hash_password(owner["password"])
-#     )
-#     owner_ids[owner["username"]] = result["id"]
-
-
-# def seed_restaurants(name, phone_number, address, trade_license_no, photo_url, cuisine_type,opening_time, owner_id):
-#     conn = get_connection()
-#     cursor = conn.cursor()
-
-#     try:
-#         cursor.execute("INSERT INTO restaurant (name, phone_number, address, trade_license_no, photo_url, cuisine_type,opening_time, owner_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) RETURNING id", (name, phone_number, address, trade_license_no, photo_url, cuisine_type,opening_time, owner_id, ))
-#         restaurant_id = cursor.fetchone()[0]
-#         conn.commit()
-#         return restaurant_id
-#     except Exception as e:
-#         conn.rollback()
-#         raise ValueError(f"Something went wrong: {str(e)}")
-#     finally:
-#         cursor.close()
-#         conn.close()
-
-# restaurant_ids = {}
-
-# for restaurant in restaurants:
-#     result = seed_restaurants(
-#         restaurant["name"],
-#         restaurant["phone_number"],
-#         restaurant["address"],
-#         restaurant["trade_license_no"],
-#         restaurant["photo_url"],
-#         restaurant["cuisine_type"],
-#         restaurant["opening_time"],
-#         owner_ids[restaurant["owner_username"]]
-#     )
-#     restaurant_ids[restaurant["name"]] = result
-
-# def seed_menu_items(restaurant_id, name, price, portion_size, category, photo_url, is_available):
-#     conn = get_connection()
-#     cursor = conn.cursor()
-
-#     try:
-#         cursor.execute("INSERT INTO menu_items (restaurant_id, name, price, portion_size, category, photo_url, is_available) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING id", (restaurant_id, name, price, portion_size, category, photo_url, is_available,))
-#         item_id = cursor.fetchone()[0]
-#         conn.commit()
-#         return item_id
-#     except Exception as e:
-#         conn.rollback()
-#         raise ValueError(f"Something went wrong: {str(e)}")
-#     finally:
-#         cursor.close()
-#         conn.close()
-
-# menu_item_ids = {}
-
-# for restaurant_name, items in menu_items.items():
-#     for item in items:
-#         item_id = seed_menu_items(
-#             restaurant_ids[restaurant_name],
-#             item["name"],
-#             item["price"],
-#             item["portion_size"],
-#             item["category"],
-#             item["photo_url"],
-#             item["is_available"]
-#         )
-#         menu_item_ids[item["name"]] = item_id
-
-
 def seed_all():
     conn = get_connection()
     cursor = conn.cursor()
     
     try:
-        # 1. Insert owners
+        # 1. Insert owners in Database
         owner_ids = {}
         for owner in owners:
             cursor.execute(
@@ -112,7 +21,7 @@ def seed_all():
                 (owner["name"], owner["username"], owner["email"], owner["phone_number"], hash_password(owner["password"]), "owner")
             )
             owner_ids[owner["username"]] = cursor.fetchone()[0]
-        # 2. Insert restaurants
+        # 2. Insert restaurants into Database
         restaurant_ids = {}
 
         for restaurant in restaurants:
@@ -130,7 +39,7 @@ def seed_all():
                 )
             )
             restaurant_ids[restaurant["name"]] = cursor.fetchone()[0]
-        # 3. Insert menu items
+        # 3. Insert menu items into Database
 
         menu_item_ids = {}
 
@@ -150,7 +59,7 @@ def seed_all():
                 )
                 menu_item_ids[item["name"]] = cursor.fetchone()[0]
 
-        # 4. Insert students
+        # 4. Insert students into Database
 
         student_ids = {}
 
