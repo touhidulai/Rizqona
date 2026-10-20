@@ -4,3 +4,4 @@ venv
 .git
 *.pyc
 my_notes
+.env.production
