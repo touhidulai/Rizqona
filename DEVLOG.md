@@ -125,3 +125,22 @@ __End of Sprint 6__
 - Database Level Design 
 
 __End of Sprint 7__
+
+## Sprint 8 - Recommendation System
+
+**What is Built**
+- Seeded database with real restaurant data collected from Public Menus shared on Google. Furthermore, generated fake students data and generated Synthetic data for events using realistic preference bias. Finally, Recommendation using TF-IDF & Cosine Similarity through Endpoints.   
+
+**Things that I Fixed:**
+- numpy.int64 was having type error. So, had to convert to int(). 
+
+
+**Decisions I made:**
+- Content Based Filtering as the data are very limited.  
+- Decided to generate event data through synthetically over using kaggle data as the data from kaggle may not have behavioral data. 
+
+**What I learned:**
+- Seeding strategy like using probability of clicking/checking favorite restaurants more often than other. 
+- Pandas iloc, dataframe filtering. 
+
+__End of Sprint 8__
