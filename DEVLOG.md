@@ -144,3 +144,22 @@ __End of Sprint 7__
 - Pandas iloc, dataframe filtering. 
 
 __End of Sprint 8__
+
+## Sprint 9 - AI Assistant with RAG 
+
+**What is Built**
+- AI Assistant of the Menus for semantic search.   
+
+**Things that I Fixed:**
+-  Issues with local database and Neon as default is .env. So, used temporary neon credentials into .env over local database info to run seed and text generation of the existing data.  
+
+**Decisions I made:**
+- Going for pgvector on Neon over separate ChromaDB. Because ChromaDB needs separate containers to run. Extended pgvector on Neon with menu_item_embeddings tables. 
+- Did embeddings, vector search, and delete embeddings upon menu deletions to keep Vector database updated. 
+- Used Groq based LLM for the Response Generation
+
+**What I learned:**
+- PGVector. How existing database can be embedded. 
+- How to enable semantic search for the Students. For Example: Something Spicy provides menu items that are spicy in nature. 
+
+__End of Sprint 9__
