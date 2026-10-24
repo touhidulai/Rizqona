@@ -163,3 +163,28 @@ __End of Sprint 8__
 - How to enable semantic search for the Students. For Example: Something Spicy provides menu items that are spicy in nature. 
 
 __End of Sprint 9__
+
+## Sprint 10 - API Guardrails 
+
+**What is Built**
+- Build Guardrails for APIs and Exposed Link.    
+
+**Things that I Fixed:**
+- Rate Limiter in main and routers were getting cross import. So, made Limiter a separate file. Now, routes and main import from there. 
+
+**Decisions I made:**
+- Exposing Azure Live Link to Public Github Repo may cause scaling vulnerablities to the container app. So, Updated Container Replica Number and Concurrency. 
+- Two Layer of Prompt Injection for AI Assistant - One is System Prompt and Another is Suspicious Word Patterns. 
+- Used SlowAPI for rate limiting. Checked that over the limit, it return HTTPError 429. 
+- Database Errors were exposing to the users. So, enabled Duplicate to HTTP 400 and Unhandled Crashes to 500. 
+- Implemented a global exception handler for any unwanted errors. 
+- Logs every requests. 
+
+**What I learned:**
+- Custom Input Validation using Field Validator
+- Azure Container Updates for Cost Optimization
+- Rate Limiting for Unwanted Bot Attacks
+- Error Handling to minimize crash with graceful message. 
+- Logging to check which API got the issues.
+
+__End of Sprint 10__

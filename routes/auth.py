@@ -14,7 +14,9 @@ def register_user_endpoint(user: UserCreate):
     try:
         return create_user(user.name, user.username, user.email, user.phone_number, hashed_password)
     except Exception as e:
-        raise HTTPException(status_code = 400, detail = {str(e)})
+        if "duplicate key" in str(e):
+            raise HTTPException(status_code = 400, detail="Email already registered")
+        raise HTTPException(status_code = 500, detail = "Internal Server Error")
 
 @router.post ("/auth/login")
 def login_endpoint(login_user: UserLogin):

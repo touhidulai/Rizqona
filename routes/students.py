@@ -15,7 +15,9 @@ def register_student_endpoint(student: StudentCreate):
     try:
         return create_student(student.name, student.username, student.email, student.phone_number, hashed_password)
     except Exception as e:
-        raise HTTPException(status_code = 400, detail = str(e))
+        if "duplicate key" in str(e):
+            raise HTTPException(status_code = 400, detail="Email already registered")
+        raise HTTPException(status_code = 500, detail = "Internal Server Error")
 
 @router.post ("/auth/student-login")
 def student_login_endpoint(login_student: StudentLogin):
