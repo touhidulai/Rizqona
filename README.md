@@ -13,7 +13,7 @@
 - Search and Filter : By Cuisine, Price & availability
 - Adding to Cart, Place Order and restaurant owner order management
 - Content-Based Filtering using (TF-IDF + Cosine Similarity)
-- A Natural Language Query Assistant - Replies real menu data understand semantics using RAG + LLM
+- A Natural Language Query Assistant - Replies real menu data by understanding semantics using RAG + LLM
 
 **Tech Stack**
 
