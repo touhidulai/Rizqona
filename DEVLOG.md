@@ -188,3 +188,40 @@ __End of Sprint 9__
 - Logging to check which API got the issues.
 
 __End of Sprint 10__
+
+## Sprint 11 - Restructure AI Engine & Version Tag
+
+**What is Built**
+- Restructured the Embeddings from using sentence-transformer to Cloudfare Workers AI embedding model 
+
+**Things that I Fixed:**
+- sentence-transformer used fixed vector size of 384, so upon transition to Cloudfare, adjusted it to 768. Adjusted docker-tag for avoiding cache deployment issue in Azure.
+
+**Decisions I made:**
+- The primary reason of removing sentence-transformer is that it used heavy torch underneath, that is difficult to maintain. For live app, an API based embedding model was necessary to avoid heavy containers with torch requiremnts and relavent files.
+- Facing repeating issues with Docker tags issue when redeploying with updated containers. So, adjusted the versioned tag.
+
+**What I learned:**
+- How to enable API based- Embedding model that replace heavy local embeddings model. 
+- Importance of naming convention in docker version tags.
+
+__End of Sprint 11__
+
+## Sprint 12 - Improvement of Student Profile Updating System
+
+**What is Built**
+- Improved the profile information update. 
+
+**Things that I Fixed:**
+- Previous API returned only partial of student info. So, improved the SQL query to get all the info and update accordingly. 
+
+**Decisions I made:**
+- Enabled COALESCE for partial updates features. 
+- Added the StudentProfileUpdate model with the necessary optional fields
+- Enabled proper updates in both the user & students table simoltaneously
+
+**What I learned:**
+- How to improve SQL query to enrich content extraction and updates.
+- How to enable Optional update features of profile infomation.  
+
+__End of Sprint 12__
