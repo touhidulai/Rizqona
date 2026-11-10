@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
-from database.student_repository import create_student, get_student_by_email, get_student_by_id 
-from models.students import StudentCreate,StudentResponse, StudentLogin 
+from database.student_repository import create_student, get_student_by_email, get_student_by_id, update_student_profile
+from models.students import StudentCreate,StudentResponse, StudentLogin, StudentProfileUpdate
 from services.auth_service import get_current_user, hash_password, verify_password, create_token
 
 
@@ -33,9 +33,13 @@ def student_login_endpoint(login_student: StudentLogin):
         raise HTTPException(status_code = 401, detail="Wrong Credentials")
 
 @router.get("/students/me")
-def get_student_info( current_user: int = Depends(get_current_user)):
+def get_student_info(current_user: int = Depends(get_current_user)):
 
     user = get_student_by_id(current_user)
     if user is None:
         raise HTTPException(status_code = 404, detail = "Student Not Found")
     return user
+
+@router.patch("/students/profile")
+def update_studentprofile_endpoint(profile: StudentProfileUpdate, current_user: int = Depends(get_current_user)):
+    return update_student_profile(current_user, profile.name, profile.phone_number, profile.faculty)

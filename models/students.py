@@ -32,3 +32,8 @@ class StudentLogin(BaseModel):
     email: str
     password: str
 
+class StudentProfileUpdate(BaseModel):
+
+    name: str = Field(None, min_length=3, max_length=30)
+    phone_number: str = Field(None, min_length=10, max_length=12)
+    faculty: str = Field(None, max_length=100)

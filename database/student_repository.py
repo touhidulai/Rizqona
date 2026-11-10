@@ -38,7 +38,7 @@ def get_student_by_id(id: int):
     cursor = conn.cursor(cursor_factory = RealDictCursor)
 
     try:
-        cursor.execute("SELECT id, name, username, email, phone_number FROM users WHERE id = (%s)",(id,))
+        cursor.execute("SELECT users.id, users.name, users.username, users.email, users.phone_number, student_profiles.faculty FROM users JOIN student_profiles ON users.id = student_profiles.user_id WHERE users.id = %s",(id,))
         user = cursor.fetchone()
         return user
     except Exception as e:
@@ -46,3 +46,32 @@ def get_student_by_id(id: int):
     finally:
         cursor.close()
         conn.close()
+
+def update_student_profile(user_id: int, name: str = None, phone_number: str = None, faculty: str = None):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        if name or phone_number:
+            cursor.execute("""
+
+            UPDATE users SET
+                name = COALESCE(%s, name),
+                phone_number = COALESCE(%s, phone_number)
+            WHERE id = %s
+            """, (name, phone_number, user_id,))
+
+        if faculty is not None:
+            cursor.execute("""
+            UPDATE student_profiles SET faculty = %s WHERE user_id = %s
+            """, (faculty, user_id))
+
+        conn.commit()
+        return {"message": "Profile updated"}
+    except Exception as e:
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
+
+    
