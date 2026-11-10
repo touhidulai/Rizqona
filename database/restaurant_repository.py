@@ -147,3 +147,64 @@ def get_restaurants_by_ids(restaurant_ids_list):
     finally:
         cursor.close()
         conn.close()
+
+def update_restaurant(owner_id: int, name: str = None, phone_number: str = None, address: str = None, cuisine_type: str = None, opening_time: str = None):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("""
+
+            UPDATE restaurant SET
+                name = COALESCE(%s, name),
+                phone_number = COALESCE(%s, phone_number),
+                address = COALESCE(%s, address),
+                cuisine_type = COALESCE(%s, cuisine_type),
+                opening_time = COALESCE(%s, opening_time)
+            WHERE owner_id = %s
+        """, (name, phone_number, address, cuisine_type, opening_time, owner_id))
+        
+        conn.commit()
+        return {"message": "Restaurant updated"}
+    except Exception as e:
+        conn.rollback()
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
+
+def update_menu_item(item_id: int, name: str = None, price: float = None, portion_size: str = None, category: str = None):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+    try:
+        cursor.execute("""
+            UPDATE menu_items SET
+                name = COALESCE(%s, name),
+                price = COALESCE(%s, price),
+                portion_size = COALESCE(%s, portion_size),
+                category = COALESCE(%s, category)
+            WHERE id = %s
+        """, (name, price, portion_size, category, item_id))
+
+        conn.commit()
+        return {"message": "Menu item updated"}
+    except Exception as e:
+        conn.rollback()
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()
+
+def delete_menu_item(item_id: int):
+    conn = get_connection()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("DELETE FROM menu_items WHERE id = %s", (item_id,))
+        conn.commit()
+        return {"message": "Menu item deleted"}
+    except Exception as e:
+        conn.rollback()
+        raise ValueError(f"Something went wrong: {str(e)}")
+    finally:
+        cursor.close()
+        conn.close()

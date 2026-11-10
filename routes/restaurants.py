@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
-from database.restaurant_repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability, get_full_menu_by_restaurant_id, search_menu_items_by_name
-from database.restaurant_repository import filter_menu_items_by_price
-from models.restaurants import RestaurantCreate, MenuItemCreate, AvailabilityUpdate, MenuItemResponse
+from database.restaurant_repository import get_all_restaurants,create_restaurant,get_restaurant_by_id,create_menu_item, update_menu_item_availability, get_full_menu_by_restaurant_id, search_menu_items_by_name, filter_menu_items_by_price, update_restaurant, update_menu_item, delete_menu_item, get_restaurant_by_owner_id
+from models.restaurants import RestaurantCreate, MenuItemCreate, AvailabilityUpdate, MenuItemResponse, RestaurantUpdate, MenuItemUpdate
 from services.auth_service import get_current_user
 from database.event_repo import create_event
 
@@ -11,6 +10,11 @@ router = APIRouter()
 def all_restaurants_endpoint():
     restaurants = get_all_restaurants()
     return restaurants
+
+@router.get("/restaurants/my-restaurant")
+def get_my_restaurant(current_user: int = Depends(get_current_user)):
+    restaurant = get_restaurant_by_owner_id(current_user)
+    return get_restaurant_by_id(restaurant)
 
 @router.get("/restaurants/{id}")
 def restaurant_byid_endpoint(id: int, current_user: int = Depends(get_current_user)):
@@ -42,6 +46,10 @@ def create_menu_item_endpoint(id: int, menu: MenuItemCreate, current_user: int =
     menu_id = create_menu_item(id, menu.name, menu.price, menu.portion_size, menu.category, menu.photo_url, menu.is_available)
     return menu_id
 
+@router.patch("/restaurants/my-restaurant/menu-items/{item_id}")
+def update_my_menu_item(item_id: int, menu: MenuItemUpdate, current_user: int = Depends(get_current_user)):
+    return update_menu_item(item_id, menu.name, menu.price, menu.portion_size, menu.category)
+
 @router.patch("/restaurants/{id}/menu-items/{item_id}")
 def change_item_availability_endpoint(item_id: int, availability: AvailabilityUpdate, current_user: int = Depends(get_current_user)):
     return update_menu_item_availability(item_id, availability.is_available)
@@ -63,3 +71,15 @@ def filter_menu_items_by_price_endpoint(max_price: float, current_user: int = De
     if len(results) == 0:
         raise HTTPException(status_code=404, detail="No Result Found")
     return results
+
+@router.patch("/restaurants/my-restaurant")
+def update_my_restaurant(restaurant: RestaurantUpdate, current_user: int = Depends(get_current_user)):
+    return update_restaurant(current_user, restaurant.name, restaurant.phone_number, restaurant.address, restaurant.cuisine_type, restaurant.opening_time)
+
+@router.patch("/restaurants/my-restaurant/menu-items/{item_id}")
+def update_my_menu_item(item_id: int, menu: MenuItemUpdate, current_user: int = Depends(get_current_user)):
+    return update_menu_item(item_id, menu.name, menu.price, menu.portion_size, menu.category)
+
+@router.delete("/restaurants/my-restaurant/menu-items/{item_id}")
+def delete_my_menu_item(item_id: int, current_user: int = Depends(get_current_user)):
+    return delete_menu_item(item_id)

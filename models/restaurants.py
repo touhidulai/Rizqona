@@ -30,3 +30,16 @@ class MenuItemResponse(MenuItemCreate):
 
 class AvailabilityUpdate(BaseModel):
     is_available: bool
+
+class RestaurantUpdate(BaseModel):
+    name: Optional[str] = None
+    phone_number: Optional[str] = None
+    address: Optional[str] = None
+    cuisine_type: Optional[str] = None
+    opening_time: Optional[time] = None
+
+class MenuItemUpdate(BaseModel):
+    name: Optional[str] = None
+    price: Optional[Decimal] = None
+    portion_size: Optional[str] = None
+    category: Optional[str] = None
